@@ -1,5 +1,5 @@
 
-app.config(function($routeProvider) {
+angular.module('app').config(function($routeProvider) {
   var routeResolvers = {
     loggedIn: function(auth) {
       return auth.requireLogin();
@@ -10,14 +10,14 @@ app.config(function($routeProvider) {
     requireAdmin: function(auth) {
       return auth.requireAdmin();
     },
-    userSessions: function(sessions, currentIdentity, auth) {
+    userSessions: function(sessionsService, currentIdentity, auth) {
       return auth.requireLogin().then(function() {
-        return sessions.getSessionsByUser(currentIdentity.currentUser.id);
+        return sessionsService.getSessionsByUser(currentIdentity.currentUser.id);
       });
     },
-    allSessions: function(sessions, auth) {
+    allSessions: function(sessionsService, auth) {
       return auth.requireLogin().then(function() {
-        return sessions.getAllSessions();
+        return sessionsService.getAllSessions();
       });
     },
     allUsers: function(users, auth) {
@@ -36,7 +36,7 @@ app.config(function($routeProvider) {
       }
     })
     .when('/admin/results', {
-      template: '<results all-sessions="$resolve.allSessions"></results>',
+      template: '<results [all-sessions]="$resolve.allSessions"></results>',
       resolve: {
         admin: routeResolvers.requireAdmin,
         allSessions: routeResolvers.allSessions
@@ -63,7 +63,7 @@ app.config(function($routeProvider) {
       }
     })
     .when('/home', {
-      template: '<home user-sessions="$resolve.userSessions"></home>',
+      template: '<home [user-sessions]="$resolve.userSessions"></home>',
       resolve: {
         login:routeResolvers.loggedIn,
         userSessions: routeResolvers.userSessions

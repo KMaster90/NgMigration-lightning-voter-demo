@@ -9,7 +9,13 @@
     "removeComments": false,
     "lib": ["es2017", "dom"]
   },
+  "compileOnSave": true,
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "aot/"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "aot/",
+    "skipMetadataEmit": true,
+  }
 }

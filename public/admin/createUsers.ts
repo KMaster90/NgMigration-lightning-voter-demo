@@ -1,11 +1,11 @@
 angular.module('app').component('createUsers', { 
-  templateUrl: '/admin/createUsers.html',
+  templateUrl: './createUsers.html',
   bindings: {
   },
-  controller: function(nameParser, users, toastr) {
+  controller: function(nameParserService, users, toastr) {
       
     this.import = function() {
-      var people = nameParser.parse(this.namesblob);
+      var people = nameParserService.parse(this.namesblob);
       people.forEach((function(person) {
       users.createNewUser({
           email: person.email,
